@@ -1815,4 +1815,20 @@ img {
         color: black;
     }
 }
-
+.no-scroll {
+    overflow: hidden !important;
+}
+.form-error {
+    color: var(--error-red, #8B3A3A);
+    font-size: 0.875rem;
+    margin-bottom: 1rem;
+    padding: 0.5rem;
+    background: rgba(139, 58, 58, 0.1);
+    border-left: 3px solid var(--error-red);
+}
+.no-scroll { overflow: hidden !important; }
+.form-error { 
+    color: #8B3A3A; 
+    font-size: 0.875rem; 
+    margin-bottom: 1rem; 
+}
