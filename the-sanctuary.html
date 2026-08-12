@@ -368,6 +368,10 @@
                         <label for="booking-notes" class="form-label">Special Instructions (Optional)</label>
                         <textarea id="booking-notes" name="notes" class="form-textarea" placeholder="e.g., 'Shoulders are tight from travel'"></textarea>
                     </div>
+                    <!-- Hidden fields for Formspree -->
+                    <input type="hidden" name="_subject" value="New Booking Request">
+                    <input type="hidden" name="form_type" value="booking">
+                    
                     <div class="form-checkbox">
                         <input type="checkbox" id="booking-consent" name="consent" required>
                         <label for="booking-consent">I understand this enquiry is covered by the Silence Charter.</label>

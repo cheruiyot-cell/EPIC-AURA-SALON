@@ -311,6 +311,10 @@
                         <textarea id="enquiry-notes" name="notes" class="form-textarea" placeholder="e.g., Specific therapist preference, particular requirements, sensitive billing instructions..."></textarea>
                     </div>
                     
+                    <!-- Hidden fields for Formspree -->
+                    <input type="hidden" name="_subject" value="New Membership Enquiry">
+                    <input type="hidden" name="form_type" value="enquiry">
+                    
                     <div class="form-checkbox">
                         <input type="checkbox" id="enquiry-consent" name="consent" required checked>
                         <label for="enquiry-consent">I understand that this is an enquiry, not a binding commitment. I am requesting information about membership.</label>
@@ -424,6 +428,10 @@
                         <label for="booking-notes" class="form-label">Special Instructions (Optional)</label>
                         <textarea id="booking-notes" name="notes" class="form-textarea" placeholder="e.g., 'Shoulders are tight from travel'"></textarea>
                     </div>
+                    <!-- Hidden fields for Formspree -->
+                    <input type="hidden" name="_subject" value="New Booking Request">
+                    <input type="hidden" name="form_type" value="booking">
+                    
                     <div class="form-checkbox">
                         <input type="checkbox" id="booking-consent" name="consent" required>
                         <label for="booking-consent">I understand this enquiry is covered by the Silence Charter.</label>

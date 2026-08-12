@@ -2,7 +2,7 @@
  * Epic Aura - Premium Salon Website
  * Main JavaScript File
  * Production-ready, vanilla JS, no dependencies
- * Version 3.0 - Updated with fixes: relative paths, form fetch, accessibility, lazy loading, active nav, etc.
+ * Version 3.0 - Updated with Formspree integration, relative paths, accessibility fixes.
  */
 
 (function() {
@@ -120,7 +120,7 @@
     });
 
     // =============================================
-    // FORM SUBMISSION HANDLERS (with fetch to backend placeholder)
+    // FORM SUBMISSION HANDLERS (Formspree)
     // =============================================
     function showFormError(message) {
         const existingError = document.querySelector('.form-error');
@@ -152,14 +152,19 @@
         submitBtn.innerHTML = '<span class="spinner"></span> Processing...';
 
         try {
-            // Placeholder endpoint – replace with your actual backend URL
             const response = await fetch(url, {
                 method: 'POST',
-                headers: { 'Content-Type': 'application/json' },
+                headers: {
+                    'Content-Type': 'application/json',
+                    'Accept': 'application/json'
+                },
                 body: JSON.stringify(data)
             });
 
-            if (!response.ok) throw new Error('Server error');
+            if (!response.ok) {
+                const errorData = await response.json();
+                throw new Error(errorData.error || 'Server error');
+            }
 
             // Success: hide form, show success message
             if (formContainer) formContainer.style.display = 'none';
@@ -167,7 +172,7 @@
             console.log('Submission successful:', data);
         } catch (error) {
             console.error('Submission error:', error);
-            showFormError('Unable to process your request. Please try again or call us directly.');
+            showFormError(error.message || 'Unable to process your request. Please try again or call us directly.');
         } finally {
             submitBtn.disabled = false;
             submitBtn.textContent = originalText;
@@ -191,8 +196,9 @@
             return;
         }
 
-        // Replace '/api/booking' with your actual booking endpoint
-        submitFormData('/api/booking', data, form);
+        // Your single Formspree endpoint for both booking and enquiry
+        const formspreeUrl = 'https://formspree.io/f/mjybylyr';
+        submitFormData(formspreeUrl, data, form);
     }
 
     function handleEnquirySubmit(e) {
@@ -206,8 +212,9 @@
             return;
         }
 
-        // Replace '/api/enquiry' with your actual membership enquiry endpoint
-        submitFormData('/api/enquiry', data, form);
+        // Same Formspree endpoint; hidden field 'form_type' tells them apart
+        const formspreeUrl = 'https://formspree.io/f/mjybylyr';
+        submitFormData(formspreeUrl, data, form);
     }
 
     if (bookingForm) {
@@ -302,7 +309,6 @@
             link.classList.remove('active');
             const linkPath = link.getAttribute('href');
             if (!linkPath) return;
-            // Exact match or root handling
             if (currentPath === linkPath || 
                 (currentPath === '/' && linkPath === 'index.html') ||
                 (currentPath.includes(linkPath) && linkPath !== '/' && linkPath !== 'index.html')) {
@@ -316,8 +322,7 @@
     // PERFORMANCE: LAZY LOADING (native support only)
     // =============================================
     // Native lazy loading already works with loading="lazy" in HTML.
-    // No additional script needed. Fallback for older browsers is provided
-    // by IntersectionObserver if needed – but we keep it minimal.
+    // No additional script needed.
 
     // =============================================
     // INITIALIZATION LOG
