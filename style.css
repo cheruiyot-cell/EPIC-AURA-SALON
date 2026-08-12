@@ -1815,6 +1815,10 @@ img {
         color: black;
     }
 }
+
+/* =============================================
+   ADDITIONAL FIXES
+   ============================================= */
 .no-scroll {
     overflow: hidden !important;
 }
@@ -1825,17 +1829,4 @@ img {
     padding: 0.5rem;
     background: rgba(139, 58, 58, 0.1);
     border-left: 3px solid var(--error-red);
-}
-.no-scroll { overflow: hidden !important; }
-.form-error { 
-    color: #8B3A3A; 
-    font-size: 0.875rem; 
-    margin-bottom: 1rem; 
-}
-.success-message.inline {
-    margin-top: 2rem;
-    background: var(--warm-charcoal);
-    padding: 2rem;
-    border-radius: var(--radius-md);
-    border: 1px solid rgba(184, 148, 90, 0.2);
 }
