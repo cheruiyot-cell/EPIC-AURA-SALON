@@ -1832,3 +1832,10 @@ img {
     font-size: 0.875rem; 
     margin-bottom: 1rem; 
 }
+.success-message.inline {
+    margin-top: 2rem;
+    background: var(--warm-charcoal);
+    padding: 2rem;
+    border-radius: var(--radius-md);
+    border: 1px solid rgba(184, 148, 90, 0.2);
+}
