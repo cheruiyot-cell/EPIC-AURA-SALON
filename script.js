@@ -1,8 +1,8 @@
 /**
  * Epic Aura - Premium Salon Website
- * Main JavaScript File
+ * Main JavaScript File - Version 3.1
  * Production-ready, vanilla JS, no dependencies
- * Version 3.0 - Updated with Formspree integration, relative paths, accessibility fixes.
+ * Updated with accessibility improvements and refined styling.
  */
 
 (function() {
@@ -24,6 +24,7 @@
     const faqItems = document.querySelectorAll('.faq-item');
     const ctaButtons = document.querySelectorAll('[data-modal="booking"]');
     const currentYearEl = document.getElementById('current-year');
+    const modalTitle = document.getElementById('modal-title');
 
     // =============================================
     // HEADER SCROLL EFFECT
@@ -49,7 +50,6 @@
         mobileToggle.classList.toggle('active');
         nav.classList.toggle('active');
         document.body.classList.toggle('no-scroll');
-        // Update accessibility attribute
         mobileToggle.setAttribute('aria-expanded', !isActive);
     }
 
@@ -68,10 +68,13 @@
     }
 
     // =============================================
-    // MODAL FUNCTIONALITY
+    // MODAL FUNCTIONALITY (with focus trap)
     // =============================================
+    let lastFocusedElement = null;
+
     function openModal() {
         if (!modalOverlay) return;
+        lastFocusedElement = document.activeElement;
         modalOverlay.classList.add('active');
         document.body.classList.add('no-scroll');
         setTimeout(() => {
@@ -84,6 +87,7 @@
         if (!modalOverlay) return;
         modalOverlay.classList.remove('active');
         document.body.classList.remove('no-scroll');
+        if (lastFocusedElement) lastFocusedElement.focus();
         resetForm();
     }
 
@@ -116,6 +120,26 @@
     document.addEventListener('keydown', (e) => {
         if (e.key === 'Escape' && modalOverlay && modalOverlay.classList.contains('active')) {
             closeModal();
+            return;
+        }
+        
+        // Focus trap
+        if (e.key === 'Tab' && modalOverlay && modalOverlay.classList.contains('active')) {
+            const focusableElements = modalOverlay.querySelectorAll(
+                'button, [href], input, select, textarea, [tabindex]:not([tabindex="-1"])'
+            );
+            if (!focusableElements.length) return;
+            
+            const firstElement = focusableElements[0];
+            const lastElement = focusableElements[focusableElements.length - 1];
+            
+            if (e.shiftKey && document.activeElement === firstElement) {
+                e.preventDefault();
+                lastElement.focus();
+            } else if (!e.shiftKey && document.activeElement === lastElement) {
+                e.preventDefault();
+                firstElement.focus();
+            }
         }
     });
 
@@ -128,7 +152,14 @@
 
         const errorEl = document.createElement('p');
         errorEl.className = 'form-error';
-        errorEl.style.cssText = 'color: #8B3A3A; font-size: 0.875rem; margin-bottom: 1rem; padding: 0.5rem; background: rgba(139, 58, 58, 0.1); border-left: 3px solid #8B3A3A;';
+        errorEl.style.cssText = `
+            color: var(--error-red, #8B3A3A);
+            font-size: var(--font-size-sm, 0.875rem);
+            margin-bottom: var(--spacing-4, 1rem);
+            padding: var(--spacing-3, 0.75rem);
+            background: rgba(139, 58, 58, 0.1);
+            border-left: 3px solid var(--error-red, #8B3A3A);
+        `;
         errorEl.textContent = message;
 
         const form = document.querySelector('.form-container form');
@@ -300,7 +331,7 @@
     }
 
     // =============================================
-    // ACTIVE NAV LINK HIGHLIGHT (simplified)
+    // ACTIVE NAV LINK HIGHLIGHT
     // =============================================
     function setActiveNavLink() {
         if (!navLinks.length) return;
@@ -317,12 +348,6 @@
         });
     }
     setActiveNavLink();
-
-    // =============================================
-    // PERFORMANCE: LAZY LOADING (native support only)
-    // =============================================
-    // Native lazy loading already works with loading="lazy" in HTML.
-    // No additional script needed.
 
     // =============================================
     // INITIALIZATION LOG
