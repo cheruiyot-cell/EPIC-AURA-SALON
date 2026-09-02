@@ -1,6 +1,6 @@
 /* =============================================
    EPIC AURA - Premium Salon Website
-   Complete Stylesheet - Version 3.1
+   Complete Stylesheet - Version 3.2
    ============================================= */
 
 /* CSS Custom Properties */
@@ -1192,6 +1192,22 @@ img {
     color: var(--muted-sand);
 }
 
+.success-message .btn {
+    margin: var(--spacing-2);
+}
+
+/* Calendly Link in Modal */
+.calendly-link {
+    text-align: center;
+    margin-top: var(--spacing-5);
+}
+
+.calendly-link p {
+    font-size: var(--font-size-sm);
+    color: var(--muted-sand);
+    margin-bottom: var(--spacing-2);
+}
+
 /* =============================================
    PAGE HERO (INNER PAGES)
    ============================================= */
@@ -1856,4 +1872,42 @@ img {
     padding: var(--spacing-3);
     background: rgba(139, 58, 58, 0.1);
     border-left: 3px solid var(--error-red);
+}
+/* =============================================
+   MODAL / BOOKING OVERLAY (UPDATED FOR CALENDLY)
+   ============================================= */
+.modal {
+    width: 95%;
+    max-width: 800px;
+    max-height: 90vh;
+    overflow-y: auto;
+    padding: var(--spacing-8);
+    position: relative;
+    transform: translateY(20px);
+    transition: transform var(--transition-smooth);
+}
+
+.calendly-container {
+    margin-bottom: var(--spacing-6);
+}
+
+.manual-toggle {
+    text-align: center;
+    font-size: var(--font-size-sm);
+    color: var(--muted-sand);
+    margin-bottom: var(--spacing-3);
+}
+
+.manual-toggle a {
+    color: var(--aged-brass);
+    text-decoration: underline;
+}
+
+.manual-toggle a:hover {
+    color: var(--aged-brass-hover);
+}
+
+/* Optional: ensure manual form has proper spacing */
+.manual-form {
+    margin-top: var(--spacing-5);
 }

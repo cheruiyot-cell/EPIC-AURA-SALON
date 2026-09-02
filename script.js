@@ -1,8 +1,8 @@
 /**
  * Epic Aura - Premium Salon Website
- * Main JavaScript File - Version 3.1
+ * Main JavaScript File - Version 3.2
  * Production-ready, vanilla JS, no dependencies
- * Updated with accessibility improvements and refined styling.
+ * Updated with Calendly inline widget and manual form toggle.
  */
 
 (function() {
@@ -20,11 +20,11 @@
     const bookingForm = document.getElementById('booking-form');
     const enquiryForm = document.getElementById('enquiry-form');
     const successMessage = document.querySelector('.success-message');
-    const formContainer = document.querySelector('.form-container');
     const faqItems = document.querySelectorAll('.faq-item');
     const ctaButtons = document.querySelectorAll('[data-modal="booking"]');
     const currentYearEl = document.getElementById('current-year');
-    const modalTitle = document.getElementById('modal-title');
+    const manualToggle = document.getElementById('show-manual-form');
+    const manualForm = document.getElementById('manual-form');
 
     // =============================================
     // HEADER SCROLL EFFECT
@@ -78,7 +78,7 @@
         modalOverlay.classList.add('active');
         document.body.classList.add('no-scroll');
         setTimeout(() => {
-            const firstInput = modalOverlay.querySelector('input, select, textarea');
+            const firstInput = modalOverlay.querySelector('input, select, textarea, .calendly-inline-widget');
             if (firstInput) firstInput.focus();
         }, 100);
     }
@@ -93,9 +93,24 @@
 
     function resetForm() {
         if (successMessage) successMessage.classList.remove('active');
-        if (formContainer) formContainer.style.display = 'block';
         if (bookingForm) bookingForm.reset();
         if (enquiryForm) enquiryForm.reset();
+        // Hide manual form and reset toggle text
+        if (manualForm) manualForm.style.display = 'none';
+        if (manualToggle) manualToggle.textContent = 'Click here';
+    }
+
+    // Toggle manual form
+    if (manualToggle && manualForm) {
+        manualToggle.addEventListener('click', function(e) {
+            e.preventDefault();
+            manualForm.style.display = (manualForm.style.display === 'none') ? 'block' : 'none';
+            if (manualForm.style.display === 'block') {
+                manualToggle.textContent = 'Hide manual form';
+            } else {
+                manualToggle.textContent = 'Click here';
+            }
+        });
     }
 
     if (ctaButtons.length) {
@@ -162,7 +177,7 @@
         `;
         errorEl.textContent = message;
 
-        const form = document.querySelector('.form-container form');
+        const form = document.querySelector('.manual-form form');
         if (form) {
             const submitBtn = form.querySelector('button[type="submit"]');
             if (submitBtn) {
@@ -197,9 +212,14 @@
                 throw new Error(errorData.error || 'Server error');
             }
 
-            // Success: hide form, show success message
-            if (formContainer) formContainer.style.display = 'none';
+            // Success: hide manual form, show success message
+            if (manualForm) manualForm.style.display = 'none';
+            if (manualToggle) manualToggle.textContent = 'Click here';
             if (successMessage) successMessage.classList.add('active');
+            
+            // Add WhatsApp confirmation button
+            addWhatsAppConfirmation(data);
+            
             console.log('Submission successful:', data);
         } catch (error) {
             console.error('Submission error:', error);
@@ -207,6 +227,43 @@
         } finally {
             submitBtn.disabled = false;
             submitBtn.textContent = originalText;
+        }
+    }
+
+    function addWhatsAppConfirmation(data) {
+        const successMsg = document.querySelector('.success-message');
+        if (!successMsg) return;
+        
+        // Remove existing WhatsApp button if present
+        const existingWaBtn = successMsg.querySelector('.whatsapp-confirm');
+        if (existingWaBtn) existingWaBtn.remove();
+        
+        // Generate WhatsApp link
+        const waNumber = '254702555093';
+        const waMessage = encodeURIComponent(
+            `Hello Epic Aura, I just submitted a booking request.\n\n` +
+            `Name: ${data.name}\n` +
+            `Service: ${data.service || 'Not specified'}\n` +
+            `Preferred Date/Time: ${data.datetime || 'Not specified'}\n` +
+            `Phone: ${data.phone}\n\n` +
+            `Please confirm my appointment. Thank you.`
+        );
+        const waLink = `https://wa.me/${waNumber}?text=${waMessage}`;
+        
+        // Create button
+        const waButton = document.createElement('a');
+        waButton.href = waLink;
+        waButton.target = '_blank';
+        waButton.rel = 'noopener noreferrer';
+        waButton.className = 'btn btn-secondary whatsapp-confirm';
+        waButton.innerHTML = 'Confirm via WhatsApp';
+        
+        // Insert after the "Call Us Now" button
+        const callBtn = successMsg.querySelector('a.btn-secondary');
+        if (callBtn) {
+            callBtn.insertAdjacentElement('afterend', waButton);
+        } else {
+            successMsg.appendChild(waButton);
         }
     }
 

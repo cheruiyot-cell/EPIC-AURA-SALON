@@ -12,11 +12,27 @@
     
     <title>The Sanctuary — Epic Aura | Nairobi CBD</title>
     
+    <!-- Google Analytics -->
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-XXXXXXXXXX"></script>
+    <script>
+      window.dataLayer = window.dataLayer || [];
+      function gtag(){dataLayer.push(arguments);}
+      gtag('js', new Date());
+      gtag('config', 'G-XXXXXXXXXX');
+    </script>
+    
+    <!-- Calendly Widget -->
+    <script src="https://assets.calendly.com/assets/external/widget.js" async></script>
+    
+    <!-- Fonts -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,500;0,600;0,700;1,400;1,500&family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet">
     
+    <!-- Stylesheet -->
     <link rel="stylesheet" href="style.css">
+    
+    <!-- Favicon -->
     <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><circle cx='50' cy='50' r='45' fill='none' stroke='%23B8945A' stroke-width='1.5' stroke-dasharray='280' stroke-dashoffset='20'/></svg>">
 </head>
 <body>
@@ -302,6 +318,7 @@
                     <p><a href="membership.html">Membership</a></p>
                     <p><a href="the-sanctuary.html">The Sanctuary</a></p>
                     <p><a href="#" data-modal="booking">Request a Seat</a></p>
+                    <p><a href="privacy-policy.html">Privacy Policy</a></p>
                 </div>
                 <div class="footer-guarantees">
                     <h4>Our Guarantees</h4>
@@ -325,60 +342,71 @@
         </div>
     </footer>
 
-    <!-- BOOKING MODAL -->
+    <!-- BOOKING MODAL (UPDATED WITH CALENDLY) -->
     <div class="modal-overlay" id="booking-modal" role="dialog" aria-modal="true" aria-labelledby="modal-title" aria-describedby="modal-desc">
         <div class="modal">
             <button class="modal-close" aria-label="Close booking form">&times;</button>
-            <div class="form-container">
-                <h2 id="modal-title">Request a Seat</h2>
-                <p id="modal-desc" class="modal-subtitle">Your details are encrypted and covered by our Silence Charter.</p>
-                <form id="booking-form" novalidate>
-                    <div class="form-group">
-                        <label for="booking-name" class="form-label">Full Name *</label>
-                        <input type="text" id="booking-name" name="name" class="form-input" placeholder="Your full name" required autocomplete="name">
-                    </div>
-                    <div class="form-group">
-                        <label for="booking-phone" class="form-label">Phone Number *</label>
-                        <input type="tel" id="booking-phone" name="phone" class="form-input" placeholder="07XX XXX XXX" required autocomplete="tel">
-                    </div>
-                    <div class="form-group">
-                        <label for="booking-service" class="form-label">Select Ritual *</label>
-                        <select id="booking-service" name="service" class="form-select" required>
-                            <option value="">Choose your ritual...</option>
-                            <option value="Executive Cut">The Executive Cut &amp; Finish — From KSh 2,500</option>
-                            <option value="Strategy Facial">The Strategy Facial — From KSh 3,500</option>
-                            <option value="Command Detail">The Command Detail — From KSh 2,000</option>
-                            <option value="Full Reset">The Full Reset — KSh 5,000</option>
-                            <option value="Multiple">Multiple Rituals</option>
-                        </select>
-                    </div>
-                    <div class="form-group">
-                        <label for="booking-datetime" class="form-label">Preferred Date &amp; Time</label>
-                        <input type="datetime-local" id="booking-datetime" name="datetime" class="form-input">
-                    </div>
-                    <div class="form-group">
-                        <label for="booking-session" class="form-label">Session Preference</label>
-                        <select id="booking-session" name="session_preference" class="form-select">
-                            <option value="silent">Silent (No conversation initiated)</option>
-                            <option value="minimal">Minimal (Essential consultation only)</option>
-                            <option value="open">Open (Conversation welcome)</option>
-                        </select>
-                    </div>
-                    <div class="form-group">
-                        <label for="booking-notes" class="form-label">Special Instructions (Optional)</label>
-                        <textarea id="booking-notes" name="notes" class="form-textarea" placeholder="e.g., 'Shoulders are tight from travel'"></textarea>
-                    </div>
-                    <!-- Hidden fields for Formspree -->
-                    <input type="hidden" name="_subject" value="New Booking Request">
-                    <input type="hidden" name="form_type" value="booking">
-                    
-                    <div class="form-checkbox">
-                        <input type="checkbox" id="booking-consent" name="consent" required>
-                        <label for="booking-consent">I understand this enquiry is covered by the Silence Charter.</label>
-                    </div>
-                    <button type="submit" class="btn btn-primary" style="width: 100%;">Confirm &amp; Secure Seat</button>
-                </form>
+
+            <!-- Calendly Inline Widget -->
+            <div class="calendly-container">
+                <h2 id="modal-title">Book Your Seat</h2>
+                <p id="modal-desc" class="modal-subtitle">Choose a time that suits your executive schedule.</p>
+                <div class="calendly-inline-widget" data-url="https://calendly.com/harrisoncheruiyot04" style="min-width:320px;height:700px;"></div>
             </div>
+
+            <!-- Manual Enquiry (Collapsible) -->
+            <div class="manual-enquiry">
+                <p class="manual-toggle">Prefer to send a request manually? <a href="#" id="show-manual-form">Click here</a></p>
+                <div class="manual-form" id="manual-form" style="display:none;">
+                    <form id="booking-form" novalidate>
+                        <div class="form-group">
+                            <label for="booking-name" class="form-label">Full Name *</label>
+                            <input type="text" id="booking-name" name="name" class="form-input" placeholder="Your full name" required autocomplete="name">
+                        </div>
+                        <div class="form-group">
+                            <label for="booking-phone" class="form-label">Phone Number *</label>
+                            <input type="tel" id="booking-phone" name="phone" class="form-input" placeholder="07XX XXX XXX" required autocomplete="tel">
+                        </div>
+                        <div class="form-group">
+                            <label for="booking-service" class="form-label">Select Ritual *</label>
+                            <select id="booking-service" name="service" class="form-select" required>
+                                <option value="">Choose your ritual...</option>
+                                <option value="Executive Cut">The Executive Cut &amp; Finish — From KSh 2,500</option>
+                                <option value="Strategy Facial">The Strategy Facial — From KSh 3,500</option>
+                                <option value="Command Detail">The Command Detail — From KSh 2,000</option>
+                                <option value="Full Reset">The Full Reset — KSh 5,000</option>
+                                <option value="Multiple">Multiple Rituals</option>
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <label for="booking-datetime" class="form-label">Preferred Date &amp; Time</label>
+                            <input type="datetime-local" id="booking-datetime" name="datetime" class="form-input">
+                        </div>
+                        <div class="form-group">
+                            <label for="booking-session" class="form-label">Session Preference</label>
+                            <select id="booking-session" name="session_preference" class="form-select">
+                                <option value="silent">Silent (No conversation initiated)</option>
+                                <option value="minimal">Minimal (Essential consultation only)</option>
+                                <option value="open">Open (Conversation welcome)</option>
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <label for="booking-notes" class="form-label">Special Instructions (Optional)</label>
+                            <textarea id="booking-notes" name="notes" class="form-textarea" placeholder="e.g., 'Shoulders are tight from travel'"></textarea>
+                        </div>
+                        <!-- Hidden fields for Formspree -->
+                        <input type="hidden" name="_subject" value="New Booking Request">
+                        <input type="hidden" name="form_type" value="booking">
+                        
+                        <div class="form-checkbox">
+                            <input type="checkbox" id="booking-consent" name="consent" required>
+                            <label for="booking-consent">I understand this enquiry is covered by the Silence Charter.</label>
+                        </div>
+                        <button type="submit" class="btn btn-primary" style="width: 100%;">Confirm &amp; Secure Seat</button>
+                    </form>
+                </div>
+            </div>
+
             <div class="success-message">
                 <h3>Thank You</h3>
                 <p>Your booking request has been received. We will confirm your appointment via WhatsApp within 2 hours.</p>
